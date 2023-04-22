@@ -1,0 +1,53 @@
+---
+title: "proj"
+output: html_document
+date: "2023-04-22"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(geosphere)
+library(geodist)
+```
+
+
+```{r}
+cities <- read.csv("us-cities-top-1k.csv")
+accident <- read.csv("FARS2015NationalCSV/accident.csv")
+```
+
+
+```{r}
+#ggplot(cities, aes(x = lon, y = lat, label = City)) +
+#  geom_point() +
+#  labs(title = "Cities in the US", x = "Longitude", y = "Latitude")
+```
+
+
+
+```{r}
+accident_lats = accident[, c("LATITUDE", "LONGITUD")]
+accident_lats
+```
+
+
+
+```{r}
+df_subset <- head(accident_lats, 100)
+hc = geodist(df_subset)
+```
+
+
+
+```{r}
+hc <- as.dist(hc)
+hc1 <- hclust(hc, method = "complete")
+plot(hc1, cex = 0.6)
+rect.hclust(hc1, k = 3, border = 2:100)
+```
+
+```{r}
+
+
+```
